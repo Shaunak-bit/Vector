@@ -1,14 +1,12 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
-  provider  = "postgresql"
-
+  provider = "postgresql"
 }
+
 model Product {
   id          String   @id @default(uuid())
   name        String
@@ -19,10 +17,7 @@ model Product {
   createdAt   DateTime @default(now()) @map("created_at")
 
   @@unique([createdAt, id])
-  
   @@index([category, createdAt(sort: Desc), id(sort: Desc)])
-  
-  @@index([createdAt(sort: Desc), id(sort: Desc)])  // Add this line
-  
+  @@index([createdAt(sort: Desc), id(sort: Desc)])
   @@map("products")
 }

@@ -53,8 +53,8 @@ async function main() {
   await prisma.product.deleteMany();
   console.log('✨ Database cleared.');
 
-const TOTAL_RECORDS = process.env.SEED_COUNT ? parseInt(process.env.SEED_COUNT, 10) : 200000;
-const CHUNK_SIZE = Math.min(10000, TOTAL_RECORDS);
+  const TOTAL_RECORDS = process.env.SEED_COUNT ? parseInt(process.env.SEED_COUNT, 10) : 200000;
+  const CHUNK_SIZE = Math.min(10000, TOTAL_RECORDS);
   const totalChunks = TOTAL_RECORDS / CHUNK_SIZE;
   
   const baseTime = new Date();
