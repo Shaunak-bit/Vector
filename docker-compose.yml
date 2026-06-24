@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: codevector
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  app:
+    build: .
+    depends_on:
+      - db
+    env_file: .env.docker
+    ports:
+      - "3000:3000"
+    command: sh -lc "npm run build && npm run start"
+    restart: unless-stopped
+
+  seeder:
+    build: .
+    depends_on:
+      - db
+    env_file: .env.docker
+    entrypoint: ["sh", "-lc"]
+    command: "npx prisma generate && npx prisma db push --url \"$DIRECT_URL\" && npx prisma db seed"
+    restart: "no"
+
+volumes:
+  db-data:

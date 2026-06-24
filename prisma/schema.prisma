@@ -1,0 +1,28 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+
+}
+model Product {
+  id          String   @id @default(uuid())
+  name        String
+  price       Float
+  category    String
+  description String
+  imageUrl    String   @map("image_url")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@unique([createdAt, id])
+  
+  @@index([category, createdAt(sort: Desc), id(sort: Desc)])
+  
+  @@index([createdAt(sort: Desc), id(sort: Desc)])  // Add this line
+  
+  @@map("products")
+}
